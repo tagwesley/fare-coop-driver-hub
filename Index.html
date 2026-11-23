@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#17243a">
+    <meta name="description" content="Private Fare Co-op driver operations portal">
+    <?!= include('Styles'); ?>
+  </head>
+  <body>
+    <div class="app-shell">
+      <section id="loginScreen" class="auth-screen">
+        <div class="brand-block">
+          <img class="brand-logo" src="https://fare.coop/wp-content/uploads/2025/08/cropped-Fare-logo-new-1.png" alt="Fare Co-op">
+          <p class="eyebrow">DRIVER OPERATIONS</p>
+          <h1>Your road. Your co-op.</h1>
+          <p class="lead">Check onboarding, set your availability, manage dispatch assignments, and reach the operations team.</p>
+        </div>
+
+        <form id="emailForm" class="auth-card">
+          <label for="emailInput">Driver email</label>
+          <input id="emailInput" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+          <button class="button button-primary button-full" type="submit">Email me a sign-in code</button>
+          <p class="form-help">Use the email connected to your Fare Co-op driver record.</p>
+        </form>
+
+        <form id="codeForm" class="auth-card hidden">
+          <button id="backToEmail" class="text-button" type="button">← Use a different email</button>
+          <label for="codeInput">Six-digit code</label>
+          <input id="codeInput" name="code" class="code-input" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="000000" required>
+          <button class="button button-primary button-full" type="submit">Open Driver Hub</button>
+          <button id="resendCode" class="button button-quiet button-full" type="button">Send a new code</button>
+        </form>
+        <p class="privacy-note">Private access. Sign-in codes expire after 10 minutes.</p>
+      </section>
+
+      <section id="portalScreen" class="portal hidden" aria-live="polite">
+        <header class="topbar">
+          <div class="topbar-brand">
+            <img src="https://fare.coop/wp-content/uploads/2025/08/cropped-Fare-logo-new-1.png" alt="Fare Co-op">
+            <div>
+              <span>DRIVER HUB</span>
+              <strong id="driverGreeting">Welcome</strong>
+            </div>
+          </div>
+          <button id="refreshButton" class="icon-button" type="button" aria-label="Refresh data" title="Refresh">↻</button>
+        </header>
+
+        <main id="portalMain" class="portal-main">
+          <section id="viewHome" class="view active" data-view="home">
+            <div id="homeContent"></div>
+          </section>
+          <section id="viewDispatch" class="view" data-view="dispatch">
+            <div class="section-heading">
+              <div><p class="eyebrow">ASSIGNMENTS</p><h2>Dispatch</h2></div>
+              <span id="dispatchCount" class="count-pill">0</span>
+            </div>
+            <div id="dispatchContent"></div>
+          </section>
+          <section id="viewEvents" class="view" data-view="events">
+            <div class="section-heading">
+              <div><p class="eyebrow">OPPORTUNITIES</p><h2>Upcoming events</h2></div>
+            </div>
+            <div id="eventsContent"></div>
+          </section>
+          <section id="viewHelp" class="view" data-view="help">
+            <div class="section-heading">
+              <div><p class="eyebrow">DRIVER SUPPORT</p><h2>How can we help?</h2></div>
+            </div>
+            <form id="helpForm" class="card form-card">
+              <label for="helpCategory">Category</label>
+              <select id="helpCategory" required>
+                <option value="">Choose one</option>
+                <option>Onboarding</option>
+                <option>Documents</option>
+                <option>Vehicle</option>
+                <option>Payments</option>
+                <option>Dispatch</option>
+                <option>App issue</option>
+                <option>Other</option>
+              </select>
+              <label for="helpDetails">What is happening?</label>
+              <textarea id="helpDetails" rows="5" maxlength="1000" placeholder="Give the operations team enough detail to help you." required></textarea>
+              <button class="button button-primary button-full" type="submit">Send support request</button>
+            </form>
+            <div id="resourceLinks" class="resource-list"></div>
+            <button id="logoutButton" class="button button-quiet button-full logout-button" type="button">Sign out</button>
+          </section>
+        </main>
+
+        <nav class="bottom-nav" aria-label="Driver Hub navigation">
+          <button class="nav-item active" data-target="home" type="button"><span>⌂</span><small>Home</small></button>
+          <button class="nav-item" data-target="dispatch" type="button"><span>↗</span><small>Dispatch</small></button>
+          <button class="nav-item" data-target="events" type="button"><span>★</span><small>Events</small></button>
+          <button class="nav-item" data-target="help" type="button"><span>?</span><small>Help</small></button>
+        </nav>
+      </section>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay hidden" role="status" aria-live="polite">
+      <div class="spinner"></div><span id="loadingText">Loading…</span>
+    </div>
+    <div id="toast" class="toast hidden" role="alert"></div>
+
+    <?!= include('Client'); ?>
+  </body>
+</html>
